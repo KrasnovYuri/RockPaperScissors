@@ -12,26 +12,61 @@ struct ContentView: View {
 
     let items = ["Rock👊🏻", "Paper🫳🏻", "Scissors✌🏻"]
     
-    @State private var computerChoice = ""
+    @State private var computerChoice = "Scissors✌🏻"
     @State private var score = 0
     
     var body: some View {
-        VStack(spacing: 30) {
-            Text("Computer choice \(computerChoice)")
-            
-            ForEach(0..<items.count, id: \.self) { item in
-                Button {
-                    buttonTapped(item)
-                } label: {
-                    Text(items[item])
-                        .font(.system(size: 50))
-                        .shadow(radius: 10)
+        ZStack {
+            LinearGradient(colors: [.cyan, .green], startPoint: .bottom, endPoint: .top)
+                .ignoresSafeArea()
+            VStack {
+                Spacer()
+                
+                Text("Beat the computer!")
+                    .font(.largeTitle.weight(.bold))
+                    .foregroundStyle(.white)
+                
+                VStack(spacing: 25) {
+                    
+                    VStack {
+                        Text("Computer choice:")
+                            .font(.subheadline.weight(.heavy))
+                        
+                        Text(computerChoice)
+                            .font(.largeTitle.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .shadow(radius: 10)
+                    }
+                    
+                    
+                    
+                    ForEach(0..<items.count, id: \.self) { item in
+                        Button {
+                            buttonTapped(item)
+                        } label: {
+                            Text(items[item])
+                                .foregroundStyle(.indigo)
+                                .font(.system(size: 50))
+                                .shadow(radius: 10)
+                        }
+                    }
                 }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .background(.thinMaterial)
+                .clipShape(.rect(cornerRadius: 20))
+                
+                Spacer()
+                
+                Text("Score \(score)")
+                    .font(.title.weight(.bold))
+                    .foregroundColor(.white)
+                    .shadow(radius: 10)
+                
+                Spacer()
             }
-            Text("Score \(score)")
-                .shadow(radius: 10)
+            .padding()
         }
-        .padding()
     }
     
     func buttonTapped(_ item: Int) {
