@@ -14,6 +14,8 @@ struct ContentView: View {
     
     @State private var computerChoice = "Scissors✌🏻"
     @State private var score = 0
+    @State private var round = 0
+    @State private var showingReset = false
     
     var body: some View {
         ZStack {
@@ -66,10 +68,19 @@ struct ContentView: View {
                 Spacer()
             }
             .padding()
+            
+            .alert("The End", isPresented: $showingReset) {
+                Button("Reset", action: resetGame)
+            } message: {
+                Text("Your score is\n \(score)")
+            }
         }
     }
     
     func buttonTapped(_ item: Int) {
+        
+        round += 1
+        
         let userChoice = items[item]
         computerChoice = items.randomElement() ?? ""
         
@@ -95,6 +106,15 @@ struct ContentView: View {
         default:
             print("default case")
         }
+        
+        if round == 10 {
+            showingReset = true
+        }
+    }
+    
+    func resetGame() {
+        score = 0
+        round = 0
     }
 }
 
